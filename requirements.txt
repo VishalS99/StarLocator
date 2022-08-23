@@ -1,0 +1,11 @@
+autopep8==1.7.0
+imageio==2.21.1
+matplotlib==3.5.2
+numpy==1.23.1
+Pillow==9.2.0
+scikit-image==0.19.3
+scipy==1.9.0
+Shapely==1.8.4
+torch==1.7.1
+torchvision==0.8.2
+tqdm==4.64.0
