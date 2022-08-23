@@ -1,5 +1,5 @@
 
-# Computer Vision take-home: Astronomy
+# Computer Vision take-home: Astronomy (Vishal Saranathan)
 
 **Problem:**
 You are given a data synthesizer which generates images and labels. Your goal is to train a model with at most 4.5 million trainable parameters which determines whether each image has a star and, if so, finds a rotated bounding box that bounds the star.
@@ -14,6 +14,9 @@ For your reference, train.py contains a basic CNN architecture (and training cod
 
 **Star Model:**<br>
 - Model Parameter count: 4,284,326
+- Run ```python3 compute_score.py``` to run evaluation
+- Run ```python3 test_model.py``` to display model results and visually compare against ground truth
+![Visual test result](final_image.png)
 - Evaluation scores:
     - #IoU > 0.5 : 0.9562575941676792  (96%)
     - #IoU > 0.7:  0.7703523693803159 (78%)

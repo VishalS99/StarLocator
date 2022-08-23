@@ -27,11 +27,7 @@ def get_bbox(model, image, label):
     else:
         np_pred = denormalize_data(predict[None]).detach().cpu().numpy()
         np_pred = np.squeeze(np_pred)
-        x = np_pred[0]
-        y = np_pred[1]
-        w = np_pred[2]
-        h = np_pred[3]
-        alpha = np_pred[4]
+        (x, y, w, h, alpha) = np_pred
         np_pred = np.array([x, y, alpha, w, h])
     return np_pred
 
@@ -41,7 +37,7 @@ if __name__ == "__main__":
     plt.subplots_adjust(top=0.9, bottom=0.1, hspace=0.4, wspace=0.4)
     model = load_model()
 
-    image, label = synthesize_data(has_star=True, noise_level=0.1)
+    image, label = synthesize_data(has_star=True)
     predicted = get_bbox(model, image, label)
     plot(
         ax[0][0],
@@ -55,7 +51,7 @@ if __name__ == "__main__":
     plot(ax[0][1], image, predicted, "no star (predicted)")
     plot(ax[1][1], image, label, "no star")
 
-    image, label = synthesize_data(has_star=True, noise_level=0.0)
+    image, label = synthesize_data(has_star=True, noise_level=0.1)
     predicted = get_bbox(model, image, label)
     plot(
         ax[0][2],
@@ -67,5 +63,5 @@ if __name__ == "__main__":
         image,
         label,
         f"star (less noise) with label {prettify_np(label)}")
-        
+
     fig.savefig("final_image.png")

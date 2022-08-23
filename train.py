@@ -54,7 +54,7 @@ def train(
         model.train()
 
         for image, label in tqdm(dl, total=len(dl)):
-            image = image.to(DEVICE).float() / 200
+            image = image.to(DEVICE).float() 
             if classification:
                 label = label.to(DEVICE).float()
             else:
@@ -91,7 +91,7 @@ def train(
         model.eval()
 
         for image, label in tqdm(vl, total=len(vl)):
-            image = image.to(DEVICE).float() / 200
+            image = image.to(DEVICE).float() 
             if classification:
                 label = label.to(DEVICE).float()
             else:
@@ -117,8 +117,7 @@ def train(
             " - Mean Loss: ",
             np.mean(val_loss),
             " - Mean IoU: ",
-            np.mean(val_iou) if classification == False else [],"\n")
-        
+            np.mean(val_iou) if classification == False else [], "\n")
 
     return model
 
@@ -129,7 +128,7 @@ def main():
     pytorch_total_params = sum(p.numel()
                                for p in model.parameters() if p.requires_grad)
     print("Trainable parameters: ", pytorch_total_params)
-    
+
     cudnn.benchmark = True
     optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
     scheduler = torch.optim.lr_scheduler.StepLR(
@@ -141,8 +140,12 @@ def main():
 
     criterion_regression = cal_diou
 
-    train_dataloader_reg = torch.utils.data.DataLoader(StarDataset(
-        data_size=250000, classification=False), batch_size=128, num_workers=16)
+    train_dataloader_reg = torch.utils.data.DataLoader(
+        StarDataset(
+            data_size=250000,
+            classification=False),
+        batch_size=128,
+        num_workers=16)
     validation_dataloader_reg = torch.utils.data.DataLoader(StarDataset(
         data_size=50000, classification=False), batch_size=64, num_workers=8)
 
@@ -188,10 +191,10 @@ def main():
 
     criterion_classification = torch.nn.BCELoss()
     train_dataloader_class = torch.utils.data.DataLoader(StarDataset(
-            data_size=250000, classification=True), batch_size=128, num_workers=8)
+        data_size=250000, classification=True), batch_size=128, num_workers=8)
 
     validation_dataloader_class = torch.utils.data.DataLoader(StarDataset(
-            data_size=50000, classification=True), batch_size=64, num_workers=8)
+        data_size=50000, classification=True), batch_size=64, num_workers=8)
 
     star_model = train(
         star_model,
@@ -202,7 +205,7 @@ def main():
         validation_dataloader_class,
         num_epochs=2,
         classification=True)
-    
+
     model_num = 1
     print("Saved model: ", str(model_num))
     torch.save(star_model.state_dict(), "model" + str(model_num) + ".pth")
